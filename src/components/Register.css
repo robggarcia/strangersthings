@@ -1,0 +1,10 @@
+.register {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin: auto;
+}

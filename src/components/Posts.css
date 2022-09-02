@@ -1,0 +1,28 @@
+.posts h1 {
+    text-align: center;
+}
+
+.post {
+    width: 500px;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.post h3 {
+    margin-top: 0;
+}
+
+.detail {
+    display: flex;
+    margin-top: -25px;
+    margin-bottom: -25px;
+}
+
+.price-title {
+    font-weight: bold;
+}
+
+.content {
+    margin-left: 5px;
+}
