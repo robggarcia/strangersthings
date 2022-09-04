@@ -1,10 +1,13 @@
+import { Link, useNavigate } from "react-router-dom";
 import "./Posts.css";
 
-const Posts = ({ posts }) => {
-  console.log("posts", posts);
+const Posts = ({ posts, token, user, setSinglePost }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="posts">
       <h1>Posts</h1>
+      <Link to="/posts/new">ADD POST</Link>
       {posts.map((post) => {
         return (
           <div className="post" key={post.id}>
@@ -22,6 +25,16 @@ const Posts = ({ posts }) => {
               <p className="location-title">Location: </p>
               <p className="content">{post.location}</p>
             </div>
+            {token ? (
+              <button
+                onClick={() => {
+                  setSinglePost(post);
+                  navigate(`${post._id}`);
+                }}
+              >
+                {post.isAuthor ? "VIEW" : "SEND MESSAGE"}
+              </button>
+            ) : null}
           </div>
         );
       })}

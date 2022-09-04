@@ -8,7 +8,7 @@ const Register = ({ setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [checkPass, setCheckPass] = useState(false);
+  const [checkPass, setCheckPass] = useState(true);
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -62,12 +62,14 @@ const Register = ({ setToken }) => {
           placeholder="Username *"
           value={username}
           onChange={handleUserInput}
+          required
         />
         <input
           type="password"
           placeholder="Password *"
           value={password}
           onChange={handlePassInput}
+          required
         />
         <input
           type="password"
@@ -77,6 +79,7 @@ const Register = ({ setToken }) => {
           onBlur={() =>
             password === confirm ? setCheckPass(true) : setCheckPass(false)
           }
+          required
         />
         {!checkPass && <p>Passwords must match</p>}
         <button type="submit">Register</button>

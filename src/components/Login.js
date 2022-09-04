@@ -33,7 +33,6 @@ const Login = ({ setToken }) => {
       setError("");
       // save the token in our react state
       setToken(info.data.token);
-      console.log(info.data.token);
       // save the token in local storage
       localStorage.setItem("token", info.data.token);
       navigate("/user");
@@ -57,12 +56,14 @@ const Login = ({ setToken }) => {
           placeholder="Username *"
           value={username}
           onChange={handleUserInput}
+          required
         />
         <input
           type="password"
           placeholder="Password *"
           value={password}
           onChange={handlePassInput}
+          required
         />
         <button type="submit">Log In</button>
       </form>
