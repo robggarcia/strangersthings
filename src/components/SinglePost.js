@@ -95,22 +95,20 @@ const SinglePost = ({ token, singlePost, user, setPosts, posts }) => {
         <p className="location-title">Location: </p>
         <p className="content">{singlePost.location}</p>
       </div>
-      {user.username === singlePost.author.username ? (
-        <UserButtons />
-      ) : (
-        <MessageUser />
+      {singlePost.isAuthor ? <UserButtons /> : <MessageUser />}
+      {singlePost.isAuthor && (
+        <div className="messages">
+          <h3>Messages regarding this post:</h3>
+          {singlePost.messages.map((message) => {
+            return (
+              <div className="message" key={message._id}>
+                <h3>From: {message.fromUser.username}</h3>
+                <p>{message.content}</p>
+              </div>
+            );
+          })}
+        </div>
       )}
-      <div className="messages">
-        <h3>Messages regarding this post:</h3>
-        {singlePost.messages.map((message) => {
-          return (
-            <div className="message" key={message._id}>
-              <h3>From: {message.fromUser.username}</h3>
-              <p>{message.content}</p>
-            </div>
-          );
-        })}
-      </div>
     </div>
   );
 };

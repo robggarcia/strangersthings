@@ -22,7 +22,6 @@ const Profile = ({ posts, user, sent, setSinglePost }) => {
         {withMessages.map((post) => {
           return (
             <div className="post">
-              <h3>Active Post: {post.title}</h3>
               {post.messages.map((message) => {
                 return (
                   <div className="message" key={message._id}>
