@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { fetchPosts } from "./api";
+import { fetchPosts, fetchUser } from "./api";
 import "./App.css";
 import {
   Home,
@@ -26,35 +26,18 @@ function App() {
   const [sent, setSent] = useState({});
 
   const getPosts = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}/posts`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const data = await response.json();
-      console.log(data.data.posts);
-      setPosts(data.data.posts);
-    } catch (error) {
-      console.error(error);
-    }
+    const data = await fetchPosts(token);
+    console.log(data.data.posts);
+    setPosts(data.data.posts);
   };
 
-  const fetchUser = async () => {
+  const getUser = async () => {
     // check local storage to see if a token is avalable
     if (localStorage.getItem("token")) setToken(localStorage.getItem("token"));
 
     if (!token) return;
 
-    const response = await fetch(`${BASE_URL}/users/me`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    const info = await response.json();
+    const info = await fetchUser(token);
     console.log("THE USER INFO: ", info);
     if (info.success) {
       setUser(info.data);
@@ -65,7 +48,7 @@ function App() {
 
   useEffect(() => {
     getPosts();
-    fetchUser();
+    getUser();
   }, [token]);
 
   return (
@@ -101,14 +84,14 @@ function App() {
           element={<NewPost token={token} posts={posts} setPosts={setPosts} />}
         />
         <Route
-          path="posts/:id"
+          path="posts/:postId/*"
           element={
             <SinglePost
               token={token}
-              singlePost={singlePost}
               user={user}
               posts={posts}
               setPosts={setPosts}
+              setUser={setUser}
             />
           }
         />

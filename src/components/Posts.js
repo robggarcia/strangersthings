@@ -9,23 +9,21 @@ const Posts = ({ posts, token, user, setSinglePost }) => {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    if (e.target.value === "") {
-      setPostsToShow(posts);
-    } else {
-      setPostsToShow(
-        postsToShow.filter((post) => {
-          if (
-            post.title.toLowerCase().includes(e.target.value) ||
-            post.description.toLowerCase().includes(e.target.value) ||
-            post.location.toLowerCase().includes(e.target.value)
-          ) {
-            return post;
-          }
-        })
-      );
-    }
+    const searchPosts = posts.filter((post) => {
+      if (
+        post.title.toLowerCase().includes(e.target.value) ||
+        post.description.toLowerCase().includes(e.target.value) ||
+        post.location.toLowerCase().includes(e.target.value) ||
+        post.author.username.toLowerCase().includes(e.target.value)
+      ) {
+        return post;
+      }
+    });
+    setPostsToShow(searchPosts);
+    console.log(postsToShow);
   };
 
+  console.log("POSTS.js IS REFRESHING");
   return (
     <div className="posts">
       <h1>Posts</h1>
@@ -50,14 +48,9 @@ const Posts = ({ posts, token, user, setSinglePost }) => {
               <p className="content">{post.location}</p>
             </div>
             {token ? (
-              <button
-                onClick={() => {
-                  setSinglePost(post);
-                  navigate(`${post._id}`);
-                }}
-              >
-                {post.isAuthor ? "VIEW" : "SEND MESSAGE"}
-              </button>
+              <Link to={post._id}>
+                <button>{post.isAuthor ? "VIEW" : "SEND MESSAGE"}</button>
+              </Link>
             ) : null}
           </div>
         );

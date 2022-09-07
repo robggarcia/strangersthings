@@ -1,25 +1,27 @@
+import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import {
+  deletePostByID,
+  fetchUser,
+  messageUser,
+  messageUserRequest,
+} from "../api";
 import { BASE_URL } from "../App";
+import EditPost from "./EditPost";
 
-const SinglePost = ({ token, singlePost, user, setPosts, posts }) => {
-  const params = useParams();
+const SinglePost = ({ token, user, posts, setPosts, setUser }) => {
+  const { postId } = useParams();
   const navigate = useNavigate();
+
+  const singlePost = posts.filter((post) => post._id === postId)[0];
+  console.log(singlePost);
 
   const UserButtons = () => {
     const handleDelete = async () => {
-      const response = await fetch(`${BASE_URL}/posts/${singlePost._id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const info = await response.json();
+      const info = await deletePostByID(postId, token);
       if (info.success) {
-        const updatedPosts = posts.filter(
-          (post) => post._id !== singlePost._id
-        );
+        const updatedPosts = posts.filter((post) => post._id !== postId);
         setPosts(updatedPosts);
         navigate("/posts");
       }
@@ -27,17 +29,12 @@ const SinglePost = ({ token, singlePost, user, setPosts, posts }) => {
     return (
       <>
         <button onClick={handleDelete}>DELETE</button>
-        <button>EDIT</button>
+        <Link to="edit">
+          <button>EDIT</button>
+        </Link>
       </>
     );
   };
-
-  /*   const handleDelete = async () => {
-    const result = await deletePostByID(singlePost._id, token);
-    setPosts([...posts]);
-    console.log("DELETE RESULT: ", result);
-    navigate("/posts");
-  }; */
 
   const MessageUser = () => {
     const [message, setMessage] = useState("");
@@ -49,25 +46,15 @@ const SinglePost = ({ token, singlePost, user, setPosts, posts }) => {
 
     const sendMessage = async (e) => {
       e.preventDefault();
-      const response = await fetch(
-        `${BASE_URL}/posts/${singlePost._id}/messages`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            message: {
-              content: `${message}`,
-            },
-          }),
-        }
-      );
-      const info = await response.json();
+      const info = await messageUserRequest(postId, token, message);
       console.log(info);
+      if (info.success) {
+        const newUser = await fetchUser(token);
+        setUser(newUser);
+      }
       setMessage("");
     };
+
     return (
       <div className="message">
         <h4>Message user about This Post</h4>
@@ -78,6 +65,10 @@ const SinglePost = ({ token, singlePost, user, setPosts, posts }) => {
       </div>
     );
   };
+
+  if (!singlePost) {
+    return <> </>;
+  }
 
   return (
     <div>
@@ -96,6 +87,20 @@ const SinglePost = ({ token, singlePost, user, setPosts, posts }) => {
         <p className="content">{singlePost.location}</p>
       </div>
       {singlePost.isAuthor ? <UserButtons /> : <MessageUser />}
+      {/* include a nested route when the url changes to /edit */}
+      <Routes>
+        <Route
+          path="edit"
+          element={
+            <EditPost
+              singlePost={singlePost}
+              token={token}
+              setPosts={setPosts}
+              posts={posts}
+            />
+          }
+        />
+      </Routes>
       {singlePost.isAuthor && (
         <div className="messages">
           <h3>Messages regarding this post:</h3>
