@@ -6,7 +6,7 @@ const Logout = ({ setToken, setUser }) => {
 
   const handleLogout = () => {
     setToken("");
-    setUser({});
+    setUser(null);
     localStorage.removeItem("token");
     navigate("/login");
   };

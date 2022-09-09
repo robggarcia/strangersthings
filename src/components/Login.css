@@ -1,10 +1,16 @@
 .login {
-    text-align: center;
-}
-
-form {
+    grid-row: 2;
+    background-color: #E7DFDD;
     display: flex;
     flex-direction: column;
-    width: 250px;
-    margin: auto;
+    align-items: center;
+}
+
+.login form {
+    margin: 0;
+}
+
+.login a {
+    color: #0E0B16;
+    margin-top: 10px;
 }

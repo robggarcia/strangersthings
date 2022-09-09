@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createNewPost } from "../api";
 import { BASE_URL } from "../App";
+
+import "./NewPost.css";
 
 const NewPost = ({ token, posts, setPosts }) => {
   const [title, setTitle] = useState("");
@@ -13,24 +16,15 @@ const NewPost = ({ token, posts, setPosts }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${BASE_URL}/posts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        post: {
-          title,
-          description,
-          price,
-          location,
-          willDeliver,
-        },
-      }),
-    });
 
-    const info = await response.json();
+    const info = await createNewPost(
+      token,
+      title,
+      description,
+      price,
+      location,
+      willDeliver
+    );
 
     setPosts([...posts, info.data.post]);
 
@@ -63,7 +57,7 @@ const NewPost = ({ token, posts, setPosts }) => {
   };
 
   return (
-    <div>
+    <div className="new-post">
       <h1>Add New Post</h1>
       <form onSubmit={handleSubmit}>
         <input

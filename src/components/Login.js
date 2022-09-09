@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../api";
 
 import "./Login.css";
-
-import { BASE_URL } from "../App";
 
 const Login = ({ setToken }) => {
   const [username, setUsername] = useState("");
@@ -14,19 +13,7 @@ const Login = ({ setToken }) => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${BASE_URL}/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          username,
-          password,
-        },
-      }),
-    });
-    const info = await response.json();
+    const info = await loginUser(username, password);
     if (!info.success) {
       setError(info.error.message);
     } else {
@@ -65,7 +52,7 @@ const Login = ({ setToken }) => {
           onChange={handlePassInput}
           required
         />
-        <button type="submit">Log In</button>
+        <button type="submit">LOG IN</button>
       </form>
       <Link to="/register">Don't have an account? Sign Up</Link>
       <p>{error}</p>

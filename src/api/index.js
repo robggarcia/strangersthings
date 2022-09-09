@@ -30,6 +30,68 @@ export const fetchUser = async (token) => {
   return info;
 };
 
+export const registerUser = async (username, password) => {
+  const response = await fetch(`${BASE_URL}/users/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user: {
+        username,
+        password,
+      },
+    }),
+  });
+  const info = await response.json();
+  return info;
+};
+
+export const loginUser = async (username, password) => {
+  const response = await fetch(`${BASE_URL}/users/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user: {
+        username,
+        password,
+      },
+    }),
+  });
+  const info = await response.json();
+  return info;
+};
+
+export const createNewPost = async (
+  token,
+  title,
+  description,
+  price,
+  location,
+  willDeliver
+) => {
+  const response = await fetch(`${BASE_URL}/posts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      post: {
+        title,
+        description,
+        price,
+        location,
+        willDeliver,
+      },
+    }),
+  });
+  const info = await response.json();
+  return info;
+};
+
 export const editPostByID = async (
   id,
   token,

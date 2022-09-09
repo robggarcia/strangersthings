@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { editPostByID, fetchPosts } from "../api";
-import { BASE_URL } from "../App";
 
 const EditPost = ({ singlePost, token, setPosts, posts }) => {
   const navigate = useNavigate();
-  console.log("SinglePost: ", singlePost);
   const [title, setTitle] = useState(singlePost.title);
   const [description, setDescription] = useState(singlePost.description);
   const [price, setPrice] = useState(singlePost.price);
@@ -90,6 +88,7 @@ const EditPost = ({ singlePost, token, setPosts, posts }) => {
             name="willDeliver"
             onChange={handleWillDeliver}
             value={willDeliver}
+            checked={willDeliver}
           />
           <label htmlFor="deliver"> Willing to Deliver?</label>
         </div>

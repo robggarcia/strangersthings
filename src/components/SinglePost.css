@@ -1,0 +1,17 @@
+.single-post {
+    grid-row: 2;
+    background-color: #E7DFDD;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-and-edit {
+    display: flex;
+    justify-content: center;
+}
+
+.single-post .messages {
+    width: 80%;
+    margin: auto;
+}

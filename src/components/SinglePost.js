@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import {
@@ -7,10 +6,11 @@ import {
   messageUser,
   messageUserRequest,
 } from "../api";
-import { BASE_URL } from "../App";
 import EditPost from "./EditPost";
 
-const SinglePost = ({ token, user, posts, setPosts, setUser }) => {
+import "./SinglePost.css";
+
+const SinglePost = ({ token, posts, setPosts, setUser, getUser }) => {
   const { postId } = useParams();
   const navigate = useNavigate();
 
@@ -27,12 +27,14 @@ const SinglePost = ({ token, user, posts, setPosts, setUser }) => {
       }
     };
     return (
-      <>
-        <button onClick={handleDelete}>DELETE</button>
+      <div className="user-buttons">
+        <button className="delete-button" onClick={handleDelete}>
+          DELETE
+        </button>
         <Link to="edit">
           <button>EDIT</button>
         </Link>
-      </>
+      </div>
     );
   };
 
@@ -52,11 +54,12 @@ const SinglePost = ({ token, user, posts, setPosts, setUser }) => {
         const newUser = await fetchUser(token);
         setUser(newUser);
       }
+      getUser();
       setMessage("");
     };
 
     return (
-      <div className="message">
+      <div className="message-user">
         <h4>Message user about This Post</h4>
         <form id="message-form" onSubmit={sendMessage}>
           <input type="text" value={message} onChange={handleMessageInput} />
@@ -71,36 +74,40 @@ const SinglePost = ({ token, user, posts, setPosts, setUser }) => {
   }
 
   return (
-    <div>
-      <h3>{singlePost.title}</h3>
-      <p className="description">{singlePost.description}</p>
-      <div className="detail">
-        <p className="price-title">Price: </p>
-        <p className="content">{singlePost.price}</p>
+    <div className="single-post">
+      <div className="post-and-edit">
+        <div className="post">
+          <h3>{singlePost.title}</h3>
+          <p className="description">{singlePost.description}</p>
+          <div className="detail">
+            <p className="price-title">Price: </p>
+            <p className="content">{singlePost.price}</p>
+          </div>
+          <div className="detail">
+            <h4 className="seller-title">Seller: </h4>
+            <h4 className="content">{singlePost.author.username}</h4>
+          </div>
+          <div className="detail">
+            <p className="location-title">Location: </p>
+            <p className="content">{singlePost.location}</p>
+          </div>
+          {singlePost.isAuthor ? <UserButtons /> : <MessageUser />}
+        </div>
+        {/* include a nested route when the url changes to /edit */}
+        <Routes>
+          <Route
+            path="edit"
+            element={
+              <EditPost
+                singlePost={singlePost}
+                token={token}
+                setPosts={setPosts}
+                posts={posts}
+              />
+            }
+          />
+        </Routes>
       </div>
-      <div className="detail">
-        <h4 className="seller-title">Seller: </h4>
-        <h4 className="content">{singlePost.author.username}</h4>
-      </div>
-      <div className="detail">
-        <p className="location-title">Location: </p>
-        <p className="content">{singlePost.location}</p>
-      </div>
-      {singlePost.isAuthor ? <UserButtons /> : <MessageUser />}
-      {/* include a nested route when the url changes to /edit */}
-      <Routes>
-        <Route
-          path="edit"
-          element={
-            <EditPost
-              singlePost={singlePost}
-              token={token}
-              setPosts={setPosts}
-              posts={posts}
-            />
-          }
-        />
-      </Routes>
       {singlePost.isAuthor && (
         <div className="messages">
           <h3>Messages regarding this post:</h3>

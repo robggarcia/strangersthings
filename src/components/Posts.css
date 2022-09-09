@@ -1,12 +1,38 @@
+.posts {
+    grid-row: 2;
+    background-color: #E7DFDD;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
 .posts h1 {
     text-align: center;
 }
 
+.post-controls {
+    margin: 0 auto;
+}
+
+#add-post {
+    color: #0E0B16;
+}
+
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 .post {
-    width: 500px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
     padding: 20px;
-    margin: 20px auto;
+    margin: 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+    border-radius: 10px;
 }
 
 .post h3 {
@@ -15,8 +41,6 @@
 
 .detail {
     display: flex;
-    margin-top: -25px;
-    margin-bottom: -25px;
 }
 
 .price-title {

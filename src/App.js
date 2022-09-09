@@ -22,7 +22,6 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
-  const [singlePost, setSinglePost] = useState({});
   const [sent, setSent] = useState({});
 
   const getPosts = async () => {
@@ -55,24 +54,20 @@ function App() {
     <div className="App">
       <Navbar token={token} />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home token={token} user={user} />} />
+        <Route path="posts" element={<Posts posts={posts} token={token} />} />
         <Route
-          path="posts"
-          element={
-            <Posts posts={posts} token={token} setSinglePost={setSinglePost} />
-          }
+          path="/login"
+          element={<Login setToken={setToken} getUser={getUser} />}
         />
-        <Route path="/login" element={<Login setToken={setToken} />} />
-        <Route path="/register" element={<Register setToken={setToken} />} />
+        <Route
+          path="/register"
+          element={<Register setToken={setToken} getUser={getUser} />}
+        />
         <Route
           path="/user"
           element={
-            <Profile
-              posts={posts}
-              user={user}
-              sent={sent}
-              setSinglePost={setSinglePost}
-            />
+            <Profile posts={posts} user={user} sent={sent} getUser={getUser} />
           }
         />
         <Route
@@ -88,10 +83,10 @@ function App() {
           element={
             <SinglePost
               token={token}
-              user={user}
               posts={posts}
               setPosts={setPosts}
               setUser={setUser}
+              getUser={getUser}
             />
           }
         />

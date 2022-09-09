@@ -1,10 +1,18 @@
 .register {
-    text-align: center;
+    grid-row: 2;
+    background-color: #E7DFDD;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 form {
+    width: 300px;
     display: flex;
     flex-direction: column;
-    width: 250px;
-    margin: auto;
+}
+
+.register a {
+    color: #0E0B16;
+    margin-top: 10px;
 }

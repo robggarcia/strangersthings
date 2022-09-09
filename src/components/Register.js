@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../App";
+import { registerUser } from "../api";
 
 import "./Register.css";
 
-const Register = ({ setToken }) => {
+const Register = ({ setToken, getUser }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -15,19 +15,7 @@ const Register = ({ setToken }) => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${BASE_URL}/users/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: {
-          username,
-          password,
-        },
-      }),
-    });
-    const info = await response.json();
+    const info = await registerUser(username, password);
     if (!info.success) {
       setError(info.error.message);
     } else {
@@ -37,6 +25,7 @@ const Register = ({ setToken }) => {
       setToken(info.data.token);
       // save the token in local storage
       localStorage.setItem("token", info.data.token);
+      getUser();
       navigate("/user");
     }
   };
@@ -82,7 +71,7 @@ const Register = ({ setToken }) => {
           required
         />
         {!checkPass && <p>Passwords must match</p>}
-        <button type="submit">Register</button>
+        <button type="submit">REGISTER</button>
       </form>
       <Link to="/login">Already have an account? Log In</Link>
       <p>{error}</p>

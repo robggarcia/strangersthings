@@ -2,4 +2,91 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-auto-rows: 8vh 92vh;
+}
+
+input {
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+  border: 2px solid #062F4F;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.checkbox {
+  display: flex;
+}
+
+.checkbox input {
+  width: 40px;
+}
+
+button {
+  background-color: #e1ecf4;
+  border-radius: 3px;
+  border: 1px solid #7aa7c7;
+  color: #39739d;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  padding: 8px .8em;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+button:hover,
+button:focus {
+  background-color: #b3d3ea;
+  color: #2c5777;
+}
+
+button:focus {
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+}
+
+button:active {
+  background-color: #a0c7e4;
+  box-shadow: none;
+  color: #2c5777;
+}
+
+.delete-button {
+  background-color: #f4e1f4;
+  border-radius: 3px;
+  border: 1px solid #c37ac7;
+  color: #9d399d;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  padding: 8px .8em;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.delete-button:hover,
+.delete-button:focus {
+  background-color: #e9b3ea;
+  color: #702c77;
+}
+
+.delete-button:focus {
+  box-shadow: 0 0 0 4px rgba(230, 0, 255, 0.15);
+}
+
+.delete-button:active {
+  background-color: #dba0e4;
+  box-shadow: none;
+  color: #702c77;
 }
