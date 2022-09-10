@@ -41,7 +41,7 @@ const SinglePost = ({
         <button className="delete-button" onClick={handleDelete}>
           DELETE
         </button>
-        <Link to="edit">
+        <Link id="edit" to="edit">
           <button>EDIT</button>
         </Link>
       </div>

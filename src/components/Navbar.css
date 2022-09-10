@@ -22,17 +22,17 @@
     margin-right: 15px;
 }
 
-a {
+.navbar a {
     margin-left: 10px;
     font-weight: bold;
     text-decoration: none;
 }
 
-a:hover {
+.navbar a:hover {
     color: #53a8e5 !important;
 }
 
-a:visited {
+.navbar a:visited {
     color: #fff;
 }
 

@@ -11,6 +11,10 @@
     color: #062F4F;
 }
 
+.profile a:hover {
+    color: #53a8e5;
+}
+
 .messages {
     display: flex;
     flex-direction: column;
