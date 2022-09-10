@@ -4,10 +4,9 @@ import { loginUser } from "../api";
 
 import "./Login.css";
 
-const Login = ({ setToken }) => {
+const Login = ({ setToken, setDisplayMessage, setSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -15,13 +14,18 @@ const Login = ({ setToken }) => {
     e.preventDefault();
     const info = await loginUser(username, password);
     if (!info.success) {
-      setError(info.error.message);
+      setSuccess(false);
+      setDisplayMessage(
+        "Error: username or password is incorrect. please try again"
+      );
     } else {
-      setError("");
       // save the token in our react state
       setToken(info.data.token);
       // save the token in local storage
       localStorage.setItem("token", info.data.token);
+      // display message to user
+      setSuccess(true);
+      setDisplayMessage("Success: successfully logged in!");
       navigate("/user");
     }
   };
@@ -55,7 +59,6 @@ const Login = ({ setToken }) => {
         <button type="submit">LOG IN</button>
       </form>
       <Link to="/register">Don't have an account? Sign Up</Link>
-      <p>{error}</p>
     </div>
   );
 };

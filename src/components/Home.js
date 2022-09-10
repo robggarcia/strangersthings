@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = ({ token, user }) => {
-  console.log(user);
   return (
     <div className="home">
       <h1>Welcome to Stranger's Things</h1>

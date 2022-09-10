@@ -2,7 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { editPostByID, fetchPosts } from "../api";
 
-const EditPost = ({ singlePost, token, setPosts, posts }) => {
+const EditPost = ({
+  singlePost,
+  token,
+  setPosts,
+  setDisplayMessage,
+  setSuccess,
+}) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState(singlePost.title);
   const [description, setDescription] = useState(singlePost.description);
@@ -25,6 +31,8 @@ const EditPost = ({ singlePost, token, setPosts, posts }) => {
     if (info.success) {
       const newPosts = await fetchPosts(token);
       setPosts(newPosts.data.posts);
+      setSuccess(true);
+      setDisplayMessage(`Success: Updated Post: "${title}"`);
     }
 
     navigate(`/posts/${singlePost._id}`);

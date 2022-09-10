@@ -8,3 +8,4 @@ export { default as Logout } from "./Logout.js";
 export { default as NewPost } from "./NewPost.js";
 export { default as SinglePost } from "./SinglePost.js";
 export { default as EditPost } from "./EditPost.js";
+export { default as Modal } from "./Modal.js";

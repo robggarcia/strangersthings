@@ -5,7 +5,7 @@ import { BASE_URL } from "../App";
 
 import "./NewPost.css";
 
-const NewPost = ({ token, posts, setPosts }) => {
+const NewPost = ({ token, posts, setPosts, setDisplayMessage, setSuccess }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(null);
@@ -25,6 +25,13 @@ const NewPost = ({ token, posts, setPosts }) => {
       location,
       willDeliver
     );
+
+    if (info.success) {
+      setSuccess(true);
+      setDisplayMessage(
+        `Success: New Post created with title:"${title}" and description:"${description}" `
+      );
+    }
 
     setPosts([...posts, info.data.post]);
 

@@ -35,6 +35,19 @@
     border-radius: 10px;
 }
 
+.post p, h4 {
+    margin-top: 0;
+}
+
+.description {
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.author {
+    background-color: #e2e6e3;
+}
+
 .post h3 {
     margin-top: 0;
 }

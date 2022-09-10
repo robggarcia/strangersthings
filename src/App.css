@@ -4,6 +4,7 @@
   padding: 0;
   display: grid;
   grid-auto-rows: 8vh 92vh;
+  min-width: 400px;
 }
 
 input {
@@ -51,12 +52,6 @@ button:focus {
   box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
 }
 
-button:active {
-  background-color: #a0c7e4;
-  box-shadow: none;
-  color: #2c5777;
-}
-
 .delete-button {
   background-color: #f4e1f4;
   border-radius: 3px;
@@ -83,10 +78,4 @@ button:active {
 
 .delete-button:focus {
   box-shadow: 0 0 0 4px rgba(230, 0, 255, 0.15);
-}
-
-.delete-button:active {
-  background-color: #dba0e4;
-  box-shadow: none;
-  color: #702c77;
 }

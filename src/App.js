@@ -13,6 +13,7 @@ import {
   Logout,
   NewPost,
   SinglePost,
+  Modal,
 } from "./components";
 
 export const BASE_URL =
@@ -23,6 +24,8 @@ function App() {
   const [token, setToken] = useState("");
   const [user, setUser] = useState({});
   const [sent, setSent] = useState({});
+  const [displayMessage, setDisplayMessage] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const getPosts = async () => {
     const data = await fetchPosts(token);
@@ -58,11 +61,25 @@ function App() {
         <Route path="posts" element={<Posts posts={posts} token={token} />} />
         <Route
           path="/login"
-          element={<Login setToken={setToken} getUser={getUser} />}
+          element={
+            <Login
+              setToken={setToken}
+              getUser={getUser}
+              setDisplayMessage={setDisplayMessage}
+              setSuccess={setSuccess}
+            />
+          }
         />
         <Route
           path="/register"
-          element={<Register setToken={setToken} getUser={getUser} />}
+          element={
+            <Register
+              setToken={setToken}
+              getUser={getUser}
+              setDisplayMessage={setDisplayMessage}
+              setSuccess={setSuccess}
+            />
+          }
         />
         <Route
           path="/user"
@@ -76,7 +93,15 @@ function App() {
         />
         <Route
           path="posts/new"
-          element={<NewPost token={token} posts={posts} setPosts={setPosts} />}
+          element={
+            <NewPost
+              token={token}
+              posts={posts}
+              setPosts={setPosts}
+              setDisplayMessage={setDisplayMessage}
+              setSuccess={setSuccess}
+            />
+          }
         />
         <Route
           path="posts/:postId/*"
@@ -87,10 +112,13 @@ function App() {
               setPosts={setPosts}
               setUser={setUser}
               getUser={getUser}
+              setDisplayMessage={setDisplayMessage}
+              setSuccess={setSuccess}
             />
           }
         />
       </Routes>
+      <Modal displayMessage={displayMessage} success={success} />
     </div>
   );
 }

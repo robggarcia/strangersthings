@@ -4,12 +4,11 @@ import { registerUser } from "../api";
 
 import "./Register.css";
 
-const Register = ({ setToken, getUser }) => {
+const Register = ({ setToken, getUser, setDisplayMessage, setSuccess }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [checkPass, setCheckPass] = useState(true);
-  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -17,14 +16,17 @@ const Register = ({ setToken, getUser }) => {
     e.preventDefault();
     const info = await registerUser(username, password);
     if (!info.success) {
-      setError(info.error.message);
+      setSuccess(false);
+      setDisplayMessage(
+        "Error: username already exists or password invaled. please try again"
+      );
     } else {
-      console.log(info);
-      setError("");
       // save the token in our react state
       setToken(info.data.token);
       // save the token in local storage
       localStorage.setItem("token", info.data.token);
+      setSuccess(true);
+      setDisplayMessage("Success: successfully logged in!");
       getUser();
       navigate("/user");
     }
@@ -74,7 +76,6 @@ const Register = ({ setToken, getUser }) => {
         <button type="submit">REGISTER</button>
       </form>
       <Link to="/login">Already have an account? Log In</Link>
-      <p>{error}</p>
     </div>
   );
 };

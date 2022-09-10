@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Posts.css";
@@ -5,6 +6,19 @@ import "./Posts.css";
 const Posts = ({ posts, token }) => {
   const [search, setSearch] = useState("");
   const [postsToShow, setPostsToShow] = useState(posts);
+
+  // save the posts to show to local storage to prevent loss of state if the use refreshes page
+  useEffect(() => {
+    const postsData = localStorage.getItem("posts");
+    setPostsToShow(JSON.parse(postsData));
+  }, []);
+
+  useEffect(() => {
+    const checkPosts = localStorage.getItem("posts");
+    if (!checkPosts) {
+      localStorage.setItem("posts", JSON.stringify(postsToShow));
+    }
+  });
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -19,7 +33,6 @@ const Posts = ({ posts, token }) => {
       }
     });
     setPostsToShow(searchPosts);
-    console.log(postsToShow);
   };
 
   return (
@@ -32,12 +45,13 @@ const Posts = ({ posts, token }) => {
           <button>ADD POST</button>
         </Link>
       </div>
+
       <div className="post-container">
-        {postsToShow.map((post) => {
+        {postsToShow.map((post, i) => {
           return (
-            <div className="post" key={post.id}>
+            <div className={post.isAuthor ? "post author" : "post"} key={i}>
               <h3>{post.title}</h3>
-              <p>{post.description}</p>
+              <p className="description">{post.description}</p>
               <div className="detail">
                 <p className="price-title">Price: </p>
                 <p className="content">{post.price}</p>

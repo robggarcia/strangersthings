@@ -10,7 +10,15 @@ import EditPost from "./EditPost";
 
 import "./SinglePost.css";
 
-const SinglePost = ({ token, posts, setPosts, setUser, getUser }) => {
+const SinglePost = ({
+  token,
+  posts,
+  setPosts,
+  setUser,
+  getUser,
+  setDisplayMessage,
+  setSuccess,
+}) => {
   const { postId } = useParams();
   const navigate = useNavigate();
 
@@ -23,6 +31,8 @@ const SinglePost = ({ token, posts, setPosts, setUser, getUser }) => {
       if (info.success) {
         const updatedPosts = posts.filter((post) => post._id !== postId);
         setPosts(updatedPosts);
+        setSuccess(true);
+        setDisplayMessage(`Success: Post "${singlePost.title}" deleted!`);
         navigate("/posts");
       }
     };
@@ -43,16 +53,19 @@ const SinglePost = ({ token, posts, setPosts, setUser, getUser }) => {
 
     const handleMessageInput = (e) => {
       setMessage(e.target.value);
-      console.log(message);
     };
 
     const sendMessage = async (e) => {
       e.preventDefault();
       const info = await messageUserRequest(postId, token, message);
-      console.log(info);
+      console.log("RETURNED MESSAGE INFO: ", info);
       if (info.success) {
         const newUser = await fetchUser(token);
         setUser(newUser);
+        setSuccess(true);
+        setDisplayMessage(
+          `Success: Message "${message}" sent to user "${singlePost.author.username}" for post: "${singlePost.title}"`
+        );
       }
       getUser();
       setMessage("");
@@ -69,45 +82,46 @@ const SinglePost = ({ token, posts, setPosts, setUser, getUser }) => {
     );
   };
 
-  if (!singlePost) {
-    return <> </>;
-  }
-
   return (
     <div className="single-post">
-      <div className="post-and-edit">
-        <div className="post">
-          <h3>{singlePost.title}</h3>
-          <p className="description">{singlePost.description}</p>
-          <div className="detail">
-            <p className="price-title">Price: </p>
-            <p className="content">{singlePost.price}</p>
+      {singlePost && (
+        <div className="post-and-edit">
+          <div className="post">
+            <h3>{singlePost.title}</h3>
+            <p className="description">{singlePost.description}</p>
+            <div className="detail">
+              <p className="price-title">Price: </p>
+              <p className="content">{singlePost.price}</p>
+            </div>
+            <div className="detail">
+              <h4 className="seller-title">Seller: </h4>
+              <h4 className="content">{singlePost.author.username}</h4>
+            </div>
+            <div className="detail">
+              <p className="location-title">Location: </p>
+              <p className="content">{singlePost.location}</p>
+            </div>
+            {singlePost.isAuthor ? <UserButtons /> : <MessageUser />}
           </div>
-          <div className="detail">
-            <h4 className="seller-title">Seller: </h4>
-            <h4 className="content">{singlePost.author.username}</h4>
-          </div>
-          <div className="detail">
-            <p className="location-title">Location: </p>
-            <p className="content">{singlePost.location}</p>
-          </div>
-          {singlePost.isAuthor ? <UserButtons /> : <MessageUser />}
+          {/* include a nested route when the url changes to /edit */}
+          <Routes>
+            <Route
+              path="edit"
+              element={
+                <EditPost
+                  singlePost={singlePost}
+                  token={token}
+                  setPosts={setPosts}
+                  posts={posts}
+                  setDisplayMessage={setDisplayMessage}
+                  setSuccess={setSuccess}
+                />
+              }
+            />
+          </Routes>
         </div>
-        {/* include a nested route when the url changes to /edit */}
-        <Routes>
-          <Route
-            path="edit"
-            element={
-              <EditPost
-                singlePost={singlePost}
-                token={token}
-                setPosts={setPosts}
-                posts={posts}
-              />
-            }
-          />
-        </Routes>
-      </div>
+      )}
+
       {singlePost.isAuthor && (
         <div className="messages">
           <h3>Messages regarding this post:</h3>
