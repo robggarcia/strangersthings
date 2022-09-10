@@ -79,3 +79,7 @@ button:focus {
 .delete-button:focus {
   box-shadow: 0 0 0 4px rgba(230, 0, 255, 0.15);
 }
+
+a:visited {
+  color: #fff;
+}
