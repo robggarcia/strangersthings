@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+
 .navbar {
     grid-row: 1;
     background-color: #0E0B16;
@@ -9,6 +11,10 @@
 
 .navbar h2 {
     margin-left: 15px;
+}
+
+.small-nav {
+    display: none;
 }
 
 .links {
@@ -28,4 +34,38 @@ a:hover {
 
 a:visited {
     color: #fff;
+}
+
+.hide {
+    display: none;
+}
+
+@media only screen and (max-width: 600px) {
+    .small-nav {
+        display: inline-block;
+        margin-left: auto;
+        margin-right: 20px;
+    }
+
+    .links {
+        display: none;
+    }
+
+    .hamburger-links {
+        position: absolute;
+        right: 0;
+        top: 8vh;
+        padding-right: 20px;
+        padding-bottom: 5px;
+        display: flex;
+        flex-direction: column;
+        background-color: #0E0B16;
+        transform: translateX(100%);
+        transition: .2s;
+    }
+
+    .hide {
+        transform: translateX(0);
+    }
+
 }

@@ -58,7 +58,10 @@ function App() {
       <Navbar token={token} />
       <Routes>
         <Route path="/" element={<Home token={token} user={user} />} />
-        <Route path="posts" element={<Posts posts={posts} token={token} />} />
+        <Route
+          path="posts"
+          element={<Posts posts={posts} token={token} getPosts={getPosts} />}
+        />
         <Route
           path="/login"
           element={

@@ -1,24 +1,21 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { fetchPosts } from "../api";
 import "./Posts.css";
 
-const Posts = ({ posts, token }) => {
+const Posts = ({ posts, token, getPosts }) => {
   const [search, setSearch] = useState("");
   const [postsToShow, setPostsToShow] = useState(posts);
 
-  // save the posts to show to local storage to prevent loss of state if the use refreshes page
   useEffect(() => {
-    const postsData = localStorage.getItem("posts");
-    setPostsToShow(JSON.parse(postsData));
+    const retrievePosts = async () => {
+      const data = await fetchPosts(token);
+      console.log(data.data.posts);
+      setPostsToShow(data.data.posts);
+    };
+    retrievePosts();
   }, []);
-
-  useEffect(() => {
-    const checkPosts = localStorage.getItem("posts");
-    if (!checkPosts) {
-      localStorage.setItem("posts", JSON.stringify(postsToShow));
-    }
-  });
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -41,9 +38,11 @@ const Posts = ({ posts, token }) => {
       <div className="post-controls">
         <input id="search" value={search} onChange={handleSearch} />
         <label htmlFor="search"> Search Posts</label>
-        <Link to="/posts/new" id="add-post">
-          <button>ADD POST</button>
-        </Link>
+        {token && (
+          <Link to="/posts/new" id="add-post">
+            <button>ADD POST</button>
+          </Link>
+        )}
       </div>
 
       <div className="post-container">

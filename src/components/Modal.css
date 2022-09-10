@@ -2,14 +2,15 @@
     position: fixed;
     bottom: 10px;
     left: 50%;
-    width: 500px;
-    margin-left: -250px;
+    width: 400px;
+    margin-left: -200px;
     padding-left: 20px;
     color: #fff;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .success {
